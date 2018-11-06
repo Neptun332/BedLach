@@ -17,19 +17,20 @@ public class ShapesGenerator {
     private List<Shape> shapes = new ArrayList<Shape>();
     private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
-    private int min;
-    private  int max;
+    private double min;
+    private double max;
 
     private int amountToGenerate;
 
 
-    private DecimalFormat decimalFormat = new DecimalFormat("#.###");
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
-    public void program(int amountToGenerate){
-
+    public ShapesGenerator(int amountToGenerate, double min, double max){
         this.amountToGenerate =  amountToGenerate;
+        this.min = min;
+        this.max = max;
     }
-    public void GenerateFigures(){
+    public void generate(){
 
 
         for(int i =0; i < amountToGenerate;i++) {
@@ -62,28 +63,10 @@ public class ShapesGenerator {
     public List<Shape> getShapes() {
         return shapes;
     }
-
-    public RandomNumberGenerator getRandomNumberGenerator() {
-        return randomNumberGenerator;
-    }
-
     public int getAmountToGenerate() {
         return amountToGenerate;
     }
     public DecimalFormat getDecimalFormat() {
         return decimalFormat;
     }
-    public void setAmountToGenerate(int amountToGenerate) {
-        this.amountToGenerate = amountToGenerate;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
-    }
-
-
 }

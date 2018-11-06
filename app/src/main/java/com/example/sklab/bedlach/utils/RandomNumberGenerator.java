@@ -10,7 +10,6 @@ public class RandomNumberGenerator {
     }
 
     public double randomDouble(double min, double max) {
-        Random r = new Random();
         return min + new Random().nextDouble() * (max - min);
     }
 

@@ -15,18 +15,14 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class StatsActivity extends AppCompatActivity {
-
-    private ShapesGenerator figures;
-    private List<Shape> shapes;
-    private DecimalFormat decimalFormat;
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        figures = MainActivity.getFigures();
-        decimalFormat = figures.getDecimalFormat();
+        //shapes = getIntent().getParcelableArrayListExtra("generatedFigures");
 
         TextView CircleCount = findViewById(R.id.CircleCount);
         TextView SquareCount = findViewById(R.id.SquareCount);

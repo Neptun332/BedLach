@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private DecimalFormat decimalFormat;
     private SharedPreferences preferences;
 
-    private static ShapesGenerator figures;
+    private ShapesGenerator figures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         int amountToGenerate = Integer.parseInt(preferences.getString("amountToGenerate", "50"));
-        int min = Integer.parseInt(preferences.getString("min", "0"));
-        int max = Integer.parseInt(preferences.getString("max", "1"));
-        figures = new ShapesGenerator();
-        figures.setAmountToGenerate(amountToGenerate);
-        figures.setMin(min);
-        figures.setMin(max);
-
-        figures.GenerateFigures();
+        double min = Double.parseDouble(preferences.getString("min", "0"));
+        double max = Double.parseDouble(preferences.getString("max", "1"));
+        figures = new ShapesGenerator(amountToGenerate,min,max);
+        figures.generate();
         shapes = figures.getShapes();
         linearLayoutWithClear = findViewById(R.id.linearLayout);
         decimalFormat = figures.getDecimalFormat();
@@ -181,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public static ShapesGenerator getFigures() {
-        return figures;
     }
 
 }
