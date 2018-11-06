@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <EditTextPreference
+    android:capitalize="words"
+    android:defaultValue="@string/amountToGenerate_default"
+    android:inputType="numberDecimal"
+    android:key="amountToGenerate"
+    android:maxLines="1"
+    android:selectAllOnFocus="true"
+    android:singleLine="true"
+    android:title="@string/amountToGenerate" />
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/min_default"
+        android:inputType="numberDecimal"
+        android:key="min"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/min" />
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/max_default"
+        android:inputType="numberDecimal"
+        android:key="max"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/max" />
+
+
+</PreferenceScreen>
