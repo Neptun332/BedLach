@@ -18,7 +18,7 @@ public class Triangle extends Shape {
 
     @Override
     public void computeArea() {
-        setArea(Math.pow(getParameter() / Math.sqrt(3), 2) * Math.sqrt(3) / 4 );
+        setArea((Math.pow(getParameter(),2) * Math.sqrt(2)) / 3);
         this.sumOfArea += this.getArea();
     }
 

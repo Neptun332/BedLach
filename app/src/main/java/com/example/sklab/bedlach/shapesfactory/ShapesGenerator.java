@@ -1,9 +1,6 @@
-package com.example.sklab.bedlach;
+package com.example.sklab.bedlach.shapesfactory;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
+import com.example.sklab.bedlach.utils.RandomNumberGenerator;
 import com.example.sklab.bedlach.shapesfactory.Shape;
 import com.example.sklab.bedlach.shapesfactory.model.Circle;
 import com.example.sklab.bedlach.shapesfactory.model.Square;
@@ -13,12 +10,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class program {
+public class ShapesGenerator {
 
 
 
     private List<Shape> shapes = new ArrayList<Shape>();
-    private  RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+    private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
     private int min;
     private  int max;

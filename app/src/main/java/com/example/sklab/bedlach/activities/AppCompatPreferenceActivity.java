@@ -1,4 +1,4 @@
-package com.example.sklab.bedlach;
+package com.example.sklab.bedlach.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

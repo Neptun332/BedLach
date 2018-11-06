@@ -1,4 +1,4 @@
-package com.example.sklab.bedlach;
+package com.example.sklab.bedlach.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.sklab.bedlach.LinearLayoutWithClear;
+import com.example.sklab.bedlach.R;
+import com.example.sklab.bedlach.shapesfactory.ShapesGenerator;
 import com.example.sklab.bedlach.shapesfactory.Shape;
 import com.example.sklab.bedlach.shapesfactory.model.Circle;
 import com.example.sklab.bedlach.shapesfactory.model.Square;
@@ -23,9 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private DecimalFormat decimalFormat;
     private SharedPreferences preferences;
 
-    private static program figures;
-
-
+    private static ShapesGenerator figures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         int amountToGenerate = Integer.parseInt(preferences.getString("amountToGenerate", "50"));
         int min = Integer.parseInt(preferences.getString("min", "0"));
         int max = Integer.parseInt(preferences.getString("max", "1"));
-        figures = new program();
+        figures = new ShapesGenerator();
         figures.setAmountToGenerate(amountToGenerate);
         figures.setMin(min);
         figures.setMin(max);
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static program getFigures() {
+    public static ShapesGenerator getFigures() {
         return figures;
     }
 

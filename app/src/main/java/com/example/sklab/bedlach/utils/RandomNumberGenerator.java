@@ -1,4 +1,4 @@
-package com.example.sklab.bedlach;
+package com.example.sklab.bedlach.utils;
 
 import java.util.Random;
 

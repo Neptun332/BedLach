@@ -1,9 +1,11 @@
-package com.example.sklab.bedlach;
+package com.example.sklab.bedlach.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.sklab.bedlach.R;
+import com.example.sklab.bedlach.shapesfactory.ShapesGenerator;
 import com.example.sklab.bedlach.shapesfactory.Shape;
 import com.example.sklab.bedlach.shapesfactory.model.Circle;
 import com.example.sklab.bedlach.shapesfactory.model.Square;
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class StatsActivity extends AppCompatActivity {
 
-    private program figures;
+    private ShapesGenerator figures;
     private List<Shape> shapes;
     private DecimalFormat decimalFormat;
 

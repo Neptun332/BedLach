@@ -18,7 +18,7 @@ public class Square extends Shape {
 
     @Override
     public void computeArea() {
-        setArea( (getParameter()*getParameter()) / Math.sqrt(2));
+        setArea( (getParameter()*getParameter()) / 2);
         this.sumOfArea += this.getArea();
     }
 
