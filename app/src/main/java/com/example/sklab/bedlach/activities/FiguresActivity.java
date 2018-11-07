@@ -2,6 +2,7 @@ package com.example.sklab.bedlach.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +40,7 @@ public class FiguresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        linearLayoutWithClear = findViewById(R.id.linearLayout);
         generateDataFromPreferences();
         inflateLinearLayout();
     }
@@ -52,7 +53,18 @@ public class FiguresActivity extends AppCompatActivity {
         figures = new ShapesGenerator(amountToGenerate, min, max);
         figures.generate();
         shapes = figures.getShapes();
-        linearLayoutWithClear = findViewById(R.id.linearLayout);
+    }
+
+    private void generateSingleRandomFigure() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FiguresActivity.this);
+        int amountToGenerate = Integer.parseInt(preferences.getString("amountToGenerate", "50"));
+        double min = Double.parseDouble(preferences.getString("min", "0"));
+        double max = Double.parseDouble(preferences.getString("max", "1"));
+        List<Shape> tempShapes = shapes;
+        figures = new ShapesGenerator(amountToGenerate, min, max);
+        figures.setShapes(tempShapes);
+        figures.singleItemGenerate();
+        shapes = figures.getShapes();
     }
 
 
@@ -114,6 +126,11 @@ public class FiguresActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
@@ -135,6 +152,11 @@ public class FiguresActivity extends AppCompatActivity {
             case R.id.statistics:
                 Intent intent = new Intent(FiguresActivity.this, StatsActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.add_item:
+                generateSingleRandomFigure();
+                linearLayoutWithClear.clearContent();
+                inflateLinearLayout();
                 return true;
             default:
               return super.onOptionsItemSelected(item);

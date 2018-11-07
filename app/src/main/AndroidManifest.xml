@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.FiguresActivity">
+        <activity
+            android:configChanges="orientation"
+            android:label="@string/figure_list"
+            android:name=".activities.FiguresActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,6 +21,7 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_settings" />
         <activity android:name=".activities.StatsActivity"></activity>
     </application>
