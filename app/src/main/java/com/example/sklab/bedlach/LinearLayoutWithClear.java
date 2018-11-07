@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 public class LinearLayoutWithClear extends LinearLayout {
 
-    private DecimalFormat decimalFormat = new DecimalFormat("#.###");
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
     public LinearLayoutWithClear(Context context) {
         super(context);

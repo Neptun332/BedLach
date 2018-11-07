@@ -82,4 +82,6 @@
     <string name="settings_menu_item">Settings</string>
     <string name="statistics_menu_item">Statistics</string>
     <string name="figure_list">Figures list</string>
+    <string name="duplicate">Duplicate</string>
+    <string name="delete">Delete</string>
 </resources>

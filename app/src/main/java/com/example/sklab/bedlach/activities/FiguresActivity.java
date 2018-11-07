@@ -6,10 +6,13 @@ import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ScrollView;
 
 import com.example.sklab.bedlach.LinearLayoutWithClear;
 import com.example.sklab.bedlach.R;
@@ -32,6 +35,7 @@ public class FiguresActivity extends AppCompatActivity {
 
     private List<Shape> shapes;
     private LinearLayoutWithClear linearLayoutWithClear;
+    private ScrollView scrollView;
 
     private ShapesGenerator figures;
     private boolean isSortByFigureNameClicked, isSortByAreaClicked, isSortByParameterClicked;
@@ -41,6 +45,8 @@ public class FiguresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         linearLayoutWithClear = findViewById(R.id.linearLayout);
+        registerForContextMenu(linearLayoutWithClear);
+
         generateDataFromPreferences();
         inflateLinearLayout();
     }
@@ -161,5 +167,40 @@ public class FiguresActivity extends AppCompatActivity {
             default:
               return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo(); //todo it return null pointer
+        switch (item.getItemId()) {
+            case R.id.duplicate:
+                duplicateFigure(info.id);
+                return true;
+            case R.id.delete:
+                deleteFigure(info.id);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    private void deleteFigure(long id) {
+        shapes.remove((int) id);
+        linearLayoutWithClear.clearContent();
+        inflateLinearLayout();
+    }
+
+    private void duplicateFigure(long id) {
+        Shape duplicatedShape = shapes.get((int) id);
+        shapes.add(duplicatedShape);
+        linearLayoutWithClear.clearContent();
+        inflateLinearLayout();
     }
 }
