@@ -20,6 +20,11 @@ public class Circle extends Shape {
        this.sumOfArea += this.getArea();
     }
 
+    @Override
+    public String getName() {
+        return "Circle";
+    }
+
 
     public static double getSumOfArea() {
         return sumOfArea;
@@ -33,5 +38,16 @@ public class Circle extends Shape {
         return CircleCount;
     }
 
+    public static void setSumOfArea(double sumOfArea) {
+        Circle.sumOfArea = sumOfArea;
+    }
+
+    public static void setSumOfParameter(double sumOfParameter) {
+        Circle.sumOfParameter = sumOfParameter;
+    }
+
+    public static void setCircleCount(int circleCount) {
+        CircleCount = circleCount;
+    }
 }
 

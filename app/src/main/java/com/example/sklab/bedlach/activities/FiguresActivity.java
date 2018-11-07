@@ -12,10 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.example.sklab.bedlach.LinearLayoutWithClear;
 import com.example.sklab.bedlach.R;
+import com.example.sklab.bedlach.activities.adapters.ListViewAdapter;
 import com.example.sklab.bedlach.comparators.FigureAreaAscComparator;
 import com.example.sklab.bedlach.comparators.FigureAreaDscComparator;
 import com.example.sklab.bedlach.comparators.FigureNameAscComparator;
@@ -26,16 +28,16 @@ import com.example.sklab.bedlach.shapesfactory.ShapesGenerator;
 import com.example.sklab.bedlach.shapesfactory.Shape;
 import com.example.sklab.bedlach.shapesfactory.model.Circle;
 import com.example.sklab.bedlach.shapesfactory.model.Square;
+import com.example.sklab.bedlach.shapesfactory.model.Triangle;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
 public class FiguresActivity extends AppCompatActivity {
-
     private List<Shape> shapes;
-    private LinearLayoutWithClear linearLayoutWithClear;
-    private ScrollView scrollView;
+    private ListView listView;
+    private ListViewAdapter listViewAdapter;
 
     private ShapesGenerator figures;
     private boolean isSortByFigureNameClicked, isSortByAreaClicked, isSortByParameterClicked;
@@ -44,11 +46,14 @@ public class FiguresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        linearLayoutWithClear = findViewById(R.id.linearLayout);
-        registerForContextMenu(linearLayoutWithClear);
+        listView = findViewById(R.id.listView);
+        registerForContextMenu(listView);
 
         generateDataFromPreferences();
-        inflateLinearLayout();
+
+        listViewAdapter = new ListViewAdapter(this, R.layout.list_item_layout, shapes);
+        listViewAdapter.setNotifyOnChange(true);
+        listView.setAdapter(listViewAdapter);
     }
 
     private void generateDataFromPreferences() {
@@ -56,79 +61,71 @@ public class FiguresActivity extends AppCompatActivity {
         int amountToGenerate = Integer.parseInt(preferences.getString("amountToGenerate", "50"));
         double min = Double.parseDouble(preferences.getString("min", "0"));
         double max = Double.parseDouble(preferences.getString("max", "1"));
+        resetStatistics();
         figures = new ShapesGenerator(amountToGenerate, min, max);
         figures.generate();
         shapes = figures.getShapes();
     }
 
+    private void resetStatistics() {
+        Circle.setCircleCount(0);
+        Circle.setSumOfArea(0);
+        Circle.setSumOfParameter(0);
+
+        Triangle.setTriangleCount(0);
+        Triangle.setSumOfArea(0);
+        Triangle.setSumOfParameter(0);
+
+        Square.setSquareCount(0);
+        Square.setSumOfArea(0);
+        Square.setSumOfParameter(0);
+    }
+
     private void generateSingleRandomFigure() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FiguresActivity.this);
-        int amountToGenerate = Integer.parseInt(preferences.getString("amountToGenerate", "50"));
         double min = Double.parseDouble(preferences.getString("min", "0"));
         double max = Double.parseDouble(preferences.getString("max", "1"));
-        List<Shape> tempShapes = shapes;
-        figures = new ShapesGenerator(amountToGenerate, min, max);
-        figures.setShapes(tempShapes);
+        figures = new ShapesGenerator(min, max);
         figures.singleItemGenerate();
-        shapes = figures.getShapes();
+
+        listViewAdapter.add(figures.getSingleShape());
     }
 
-
-    void inflateLinearLayout() {
-        for (Shape shape : shapes) {
-            if (shape instanceof Circle) {
-                linearLayoutWithClear.InsertCircleToLayout(shape);
-            } else if (shape instanceof Square) {
-                linearLayoutWithClear.InsertSquareToLayout(shape);
-            } else {
-                linearLayoutWithClear.InsertTriangleToLayout(shape);
-            }
-        }
-    }
 
     public void sortByAreaButton(View view) {
-        linearLayoutWithClear.clearContent();
         if (!isSortByAreaClicked) {
             FigureAreaAscComparator figureAreaAscComparator = new FigureAreaAscComparator();
-            Collections.sort(shapes, figureAreaAscComparator);
+            listViewAdapter.sort(figureAreaAscComparator);
             isSortByAreaClicked = true;
         } else {
             FigureAreaDscComparator figureAreaDscComparator = new FigureAreaDscComparator();
-            Collections.sort(shapes, figureAreaDscComparator);
+            listViewAdapter.sort(figureAreaDscComparator);
             isSortByAreaClicked = false;
         }
-
-        inflateLinearLayout();
     }
 
     public void sortByParameterButton(View view) {
-        linearLayoutWithClear.clearContent();
         if (!isSortByParameterClicked) {
             FigureParamAscComparator figureParamAscComparator = new FigureParamAscComparator();
-            Collections.sort(shapes, figureParamAscComparator);
+            listViewAdapter.sort(figureParamAscComparator);
             isSortByParameterClicked = true;
         } else {
             FigureParamDscComparator figureParamDscComparator = new FigureParamDscComparator();
-            Collections.sort(shapes, figureParamDscComparator);
+            listViewAdapter.sort(figureParamDscComparator);
             isSortByParameterClicked = false;
         }
-
-        inflateLinearLayout();
     }
 
     public void sortByFigureNameButton(View view) {
-        linearLayoutWithClear.clearContent();
         if (!isSortByFigureNameClicked) {
             FigureNameAscComparator figureNameAscComparator = new FigureNameAscComparator();
-            Collections.sort(shapes, figureNameAscComparator);
+            listViewAdapter.sort(figureNameAscComparator);
             isSortByFigureNameClicked = true;
         } else {
             FigureNameDscComparator figureNameDscComparator = new FigureNameDscComparator();
-            Collections.sort(shapes, figureNameDscComparator);
+            listViewAdapter.sort(figureNameDscComparator);
             isSortByFigureNameClicked = false;
         }
-
-        inflateLinearLayout();
     }
 
     @Override
@@ -152,8 +149,8 @@ public class FiguresActivity extends AppCompatActivity {
                 return true;
             case R.id.reset_list:
                 generateDataFromPreferences();
-                linearLayoutWithClear.clearContent();
-                inflateLinearLayout();
+                listViewAdapter.clear();
+                listViewAdapter.addAll(shapes);
                 return true;
             case R.id.statistics:
                 Intent intent = new Intent(FiguresActivity.this, StatsActivity.class);
@@ -161,8 +158,6 @@ public class FiguresActivity extends AppCompatActivity {
                 return true;
             case R.id.add_item:
                 generateSingleRandomFigure();
-                linearLayoutWithClear.clearContent();
-                inflateLinearLayout();
                 return true;
             default:
               return super.onOptionsItemSelected(item);
@@ -178,7 +173,7 @@ public class FiguresActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo(); //todo it return null pointer
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.duplicate:
                 duplicateFigure(info.id);
@@ -192,15 +187,23 @@ public class FiguresActivity extends AppCompatActivity {
     }
 
     private void deleteFigure(long id) {
-        shapes.remove((int) id);
-        linearLayoutWithClear.clearContent();
-        inflateLinearLayout();
+        Shape shapeToDelete = listViewAdapter.getItem((int) id);
+        lowerShapeCounter(shapeToDelete);
+        listViewAdapter.remove(shapeToDelete);
+    }
+
+    private void lowerShapeCounter(Shape shapeToDelete) {
+        if(shapeToDelete instanceof Circle) {
+            Circle.setCircleCount(Circle.getCircleCount() - 1);
+        } else if(shapeToDelete instanceof Triangle) {
+            Triangle.setTriangleCount(Triangle.getTriangleCount() - 1);
+        } else {
+            Square.setSquareCount(Square.getSquareCount() - 1);
+        }
     }
 
     private void duplicateFigure(long id) {
-        Shape duplicatedShape = shapes.get((int) id);
-        shapes.add(duplicatedShape);
-        linearLayoutWithClear.clearContent();
-        inflateLinearLayout();
+        Shape duplicatedShape = listViewAdapter.getItem((int) id);
+        listViewAdapter.add(duplicatedShape);
     }
 }

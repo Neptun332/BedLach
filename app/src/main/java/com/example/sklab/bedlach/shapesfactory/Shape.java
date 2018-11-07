@@ -13,6 +13,7 @@ public abstract class Shape {
 
     public abstract void computeArea();
 
+    public abstract String getName();
 
     public double getArea() {
         return area;

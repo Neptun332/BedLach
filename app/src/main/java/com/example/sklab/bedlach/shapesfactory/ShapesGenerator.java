@@ -12,8 +12,7 @@ import java.util.List;
 
 public class ShapesGenerator {
 
-
-
+    private Shape singleShape;
     private List<Shape> shapes = new ArrayList<Shape>();
     private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
@@ -30,6 +29,11 @@ public class ShapesGenerator {
         this.min = min;
         this.max = max;
     }
+    public ShapesGenerator(double min, double max){
+        this.min = min;
+        this.max = max;
+    }
+
     public void generate(){
         for(int i =0; i < amountToGenerate;i++) {
             int randomIntNumber = randomNumberGenerator.randomInteger(1,3);
@@ -65,19 +69,19 @@ public class ShapesGenerator {
             case 1:
                 Shape circle = new Circle(randomDoubleNumber);
                 circle.computeArea();
-                shapes.add(circle);
+                singleShape = circle;
                 System.out.println("Circle with area of: " + decimalFormat.format(circle.getArea()) + " and diameter of " + decimalFormat.format(circle.getParameter()));
                 break;
             case 2:
                 Shape triangle = new Triangle(randomDoubleNumber);
                 triangle.computeArea();
-                shapes.add(triangle);
+                singleShape = triangle;
                 System.out.println("Triangle with area of: " + decimalFormat.format(triangle.getArea()) + " and height of " + decimalFormat.format(triangle.getParameter()));
                 break;
             case 3:
                 Shape square = new Square(randomDoubleNumber);
                 square.computeArea();
-                shapes.add(square);
+                singleShape = square;
                 System.out.println("Square with area of: " + decimalFormat.format(square.getArea()) + " and diagonal of " + decimalFormat.format(square.getParameter()));
                 break;
         }
@@ -85,6 +89,10 @@ public class ShapesGenerator {
 
     public void setShapes(List<Shape> shapes) {
         this.shapes = shapes;
+    }
+
+    public Shape getSingleShape() {
+        return singleShape;
     }
 
     public List<Shape> getShapes() {

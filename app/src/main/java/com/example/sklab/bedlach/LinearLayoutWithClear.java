@@ -1,12 +1,10 @@
 package com.example.sklab.bedlach;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.sklab.bedlach.shapesfactory.Shape;
@@ -34,7 +32,7 @@ public class LinearLayoutWithClear extends LinearLayout {
     }
 
     public void InsertCircleToLayout (Shape shape) {
-        View figure_layout = LayoutInflater.from(getContext()).inflate(R.layout.figure_layout, null);
+        View figure_layout = LayoutInflater.from(getContext()).inflate(R.layout.list_item_layout, null);
         TextView circleTextViewFigureName = figure_layout.findViewById(R.id.Figure_name);
         circleTextViewFigureName.setText("Circle: ");
 
@@ -47,7 +45,7 @@ public class LinearLayoutWithClear extends LinearLayout {
     }
 
     public void InsertSquareToLayout (Shape shape) {
-        View figure_layout = LayoutInflater.from(getContext()).inflate(R.layout.figure_layout, null);
+        View figure_layout = LayoutInflater.from(getContext()).inflate(R.layout.list_item_layout, null);
         TextView circleTextViewFigureName = figure_layout.findViewById(R.id.Figure_name);
         circleTextViewFigureName.setText("Square: ");
 
@@ -59,7 +57,7 @@ public class LinearLayoutWithClear extends LinearLayout {
         this.addView(figure_layout);
     }
     public void InsertTriangleToLayout (Shape shape) {
-        View figure_layout = LayoutInflater.from(getContext()).inflate(R.layout.figure_layout, null);
+        View figure_layout = LayoutInflater.from(getContext()).inflate(R.layout.list_item_layout, null);
         TextView circleTextViewFigureName = figure_layout.findViewById(R.id.Figure_name);
         circleTextViewFigureName.setText("Triangle: ");
 

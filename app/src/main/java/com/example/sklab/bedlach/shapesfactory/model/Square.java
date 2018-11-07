@@ -22,6 +22,11 @@ public class Square extends Shape {
         this.sumOfArea += this.getArea();
     }
 
+    @Override
+    public String getName() {
+        return "Square";
+    }
+
     public static double getSumOfArea() {
         return sumOfArea;
     }
@@ -32,5 +37,17 @@ public class Square extends Shape {
 
     public static int getSquareCount() {
         return SquareCount;
+    }
+
+    public static void setSumOfArea(double sumOfArea) {
+        Square.sumOfArea = sumOfArea;
+    }
+
+    public static void setSumOfParameter(double sumOfParameter) {
+        Square.sumOfParameter = sumOfParameter;
+    }
+
+    public static void setSquareCount(int squareCount) {
+        SquareCount = squareCount;
     }
 }

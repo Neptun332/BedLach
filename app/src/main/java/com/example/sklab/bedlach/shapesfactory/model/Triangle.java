@@ -22,6 +22,12 @@ public class Triangle extends Shape {
         this.sumOfArea += this.getArea();
     }
 
+    @Override
+    public String getName() {
+        return "Triangle";
+    }
+
+
     public static double getSumOfArea() {
         return sumOfArea;
     }
@@ -32,5 +38,17 @@ public class Triangle extends Shape {
 
     public static int getTriangleCount() {
         return TriangleCount;
+    }
+
+    public static void setSumOfArea(double sumOfArea) {
+        Triangle.sumOfArea = sumOfArea;
+    }
+
+    public static void setSumOfParameter(double sumOfParameter) {
+        Triangle.sumOfParameter = sumOfParameter;
+    }
+
+    public static void setTriangleCount(int triangleCount) {
+        TriangleCount = triangleCount;
     }
 }
