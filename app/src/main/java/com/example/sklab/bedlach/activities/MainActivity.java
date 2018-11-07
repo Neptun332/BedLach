@@ -10,13 +10,19 @@ import android.widget.Button;
 
 import com.example.sklab.bedlach.LinearLayoutWithClear;
 import com.example.sklab.bedlach.R;
+import com.example.sklab.bedlach.comparators.FigureAreaAscComparator;
+import com.example.sklab.bedlach.comparators.FigureAreaDscComparator;
+import com.example.sklab.bedlach.comparators.FigureNameAscComparator;
+import com.example.sklab.bedlach.comparators.FigureNameDscComparator;
+import com.example.sklab.bedlach.comparators.FigureParamAscComparator;
+import com.example.sklab.bedlach.comparators.FigureParamDscComparator;
 import com.example.sklab.bedlach.shapesfactory.ShapesGenerator;
 import com.example.sklab.bedlach.shapesfactory.Shape;
 import com.example.sklab.bedlach.shapesfactory.model.Circle;
 import com.example.sklab.bedlach.shapesfactory.model.Square;
 
 import java.text.DecimalFormat;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
 
     private ShapesGenerator figures;
+    private boolean isSortByFigureNameClicked, isSortByAreaClicked, isSortByParameterClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,141 +49,74 @@ public class MainActivity extends AppCompatActivity {
         shapes = figures.getShapes();
         linearLayoutWithClear = findViewById(R.id.linearLayout);
         decimalFormat = figures.getDecimalFormat();
-        for (int i = 0; i < shapes.size(); i++) {
-            Shape shape = shapes.get(i);
+        inflateLinearLayout();
+    }
+
+    void inflateLinearLayout() {
+        for (Shape shape: shapes) {
             if (shape instanceof Circle) {
                 linearLayoutWithClear.InsertCircleToLayout(shape);
-
             } else if (shape instanceof Square) {
-               linearLayoutWithClear.InsertSquareToLayout(shape);
+                linearLayoutWithClear.InsertSquareToLayout(shape);
             } else {
                 linearLayoutWithClear.InsertTriangleToLayout(shape);
             }
-
-            listenButtons();
-
         }
     }
 
-    void listenButtons(){
-    final Button settingsButton = findViewById(R.id.SettingsButton);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        }
-    });
-        final Button statsButton = findViewById(R.id.StatsButton);
-        statsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StatsActivity.class);
-                startActivity(intent);
-            }
-        });
+    public void statsButton(View view) {
+        Intent intent = new Intent(MainActivity.this, StatsActivity.class);
+        startActivity(intent);
 
-        final Button sortFigureButton = findViewById(R.id.SortFigureButton);
-        sortFigureButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                linearLayoutWithClear.clearContent();
-                shapes.sort(new Comparator<Shape>() {
-                    @Override
-                    public int compare(Shape figure1, Shape figure2) {
-                        String figureName1 = figure1.getClass().toString();
-                        String figureName2 = figure2.getClass().toString();
-                        return figureName1.compareTo(figureName2);
-                    }
-                });
-                for (int i = 0; i < shapes.size(); i++) {
-                    Shape shape = shapes.get(i);
-                    if (shape instanceof Circle) {
-                        linearLayoutWithClear.InsertCircleToLayout(shape);
-
-                    } else if (shape instanceof Square) {
-                        linearLayoutWithClear.InsertSquareToLayout(shape);
-                    } else {
-                        linearLayoutWithClear.InsertTriangleToLayout(shape);
-                    }
-
-                    listenButtons();
-
-                }
-
-            }
-        });
-        final Button sortAreaButton = findViewById(R.id.SortAreaButton);
-        sortAreaButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                linearLayoutWithClear.clearContent();
-                shapes.sort(new Comparator<Shape>() {
-                    @Override
-                    public int compare(Shape figure1, Shape figure2) {
-                        double figureArea1 = figure1.getArea();
-                        double figureArea2 = figure2.getArea();
-                        if(figureArea1 == figureArea2){
-                            return 0;
-                        }
-
-                        if(figureArea1 > figureArea2){
-                            return 1;
-                        }
-                        else{
-                            return -1;
-                        }
-                    }
-                });
-                for (int i = 0; i < shapes.size(); i++) {
-                    Shape shape = shapes.get(i);
-                    if (shape instanceof Circle) {
-                        linearLayoutWithClear.InsertCircleToLayout(shape);
-
-                    } else if (shape instanceof Square) {
-                        linearLayoutWithClear.InsertSquareToLayout(shape);
-                    } else {
-                        linearLayoutWithClear.InsertTriangleToLayout(shape);
-                    }
-
-                    listenButtons();
-
-                }
-            }
-        });
-        final Button sortParameterButton = findViewById(R.id.SortParameterButton);
-        sortParameterButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                linearLayoutWithClear.clearContent();
-                shapes.sort(new Comparator<Shape>() {
-                    @Override
-                    public int compare(Shape figure1, Shape figure2) {
-                        double figureArea1 = figure1.getParameter();
-                        double figureArea2 = figure2.getParameter();
-                        if(figureArea1 == figureArea2){
-                            return 0;
-                        }
-
-                        if(figureArea1 > figureArea2){
-                            return 1;
-                        }
-                        else{
-                            return -1;
-                        }
-                    }
-                });
-                for (int i = 0; i < shapes.size(); i++) {
-                    Shape shape = shapes.get(i);
-                    if (shape instanceof Circle) {
-                        linearLayoutWithClear.InsertCircleToLayout(shape);
-
-                    } else if (shape instanceof Square) {
-                        linearLayoutWithClear.InsertSquareToLayout(shape);
-                    } else {
-                        linearLayoutWithClear.InsertTriangleToLayout(shape);
-                    }
-
-                    listenButtons();
-
-                }
-            }
-        });
     }
 
+    public void settingsButton(View view) {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void sortByAreaButton(View view) {
+        linearLayoutWithClear.clearContent();
+        if(!isSortByAreaClicked) {
+            FigureAreaAscComparator figureAreaAscComparator = new FigureAreaAscComparator();
+            Collections.sort(shapes,figureAreaAscComparator);
+            isSortByAreaClicked = true;
+        } else {
+            FigureAreaDscComparator figureAreaDscComparator = new FigureAreaDscComparator();
+            Collections.sort(shapes,figureAreaDscComparator);
+            isSortByAreaClicked = false;
+        }
+
+        inflateLinearLayout();
+    }
+
+    public void sortByParameterButton(View view) {
+        linearLayoutWithClear.clearContent();
+        if(!isSortByParameterClicked) {
+            FigureParamAscComparator figureParamAscComparator = new FigureParamAscComparator();
+            Collections.sort(shapes,figureParamAscComparator);
+            isSortByParameterClicked = true;
+        } else {
+            FigureParamDscComparator figureParamDscComparator = new FigureParamDscComparator();
+            Collections.sort(shapes,figureParamDscComparator);
+            isSortByParameterClicked = false;
+        }
+
+        inflateLinearLayout();
+    }
+
+    public void sortByFigureNameButton(View view) {
+        linearLayoutWithClear.clearContent();
+        if(!isSortByFigureNameClicked) {
+            FigureNameAscComparator figureNameAscComparator = new FigureNameAscComparator();
+            Collections.sort(shapes,figureNameAscComparator);
+            isSortByFigureNameClicked = true;
+        } else {
+            FigureNameDscComparator figureNameDscComparator = new FigureNameDscComparator();
+            Collections.sort(shapes,figureNameDscComparator);
+            isSortByFigureNameClicked = false;
+        }
+
+        inflateLinearLayout();
+    }
 }
